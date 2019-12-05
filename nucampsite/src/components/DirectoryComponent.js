@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
 //basic Structure
@@ -15,47 +15,73 @@ import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 //     }
 // }
 
-    // renderSelectedCampsite(campsite) {
-    //     if (campsite) {
-    //         return (
-    //             <Card>
-    //                 <CardImg top src={campsite.image} alt={campsite.name} />
-    //                 <CardBody>
-    //                     <CardTitle>{campsite.name}</CardTitle>
-    //                     <CardText>{campsite.description}</CardText>
-    //                 </CardBody>
-    //             </Card>
-    //         );
-    //     }
-    //     return <div />;
-    // }
+// renderSelectedCampsite(campsite) {
+//     if (campsite) {
+//         return (
+//             <Card>
+//                 <CardImg top src={campsite.image} alt={campsite.name} />
+//                 <CardBody>
+//                     <CardTitle>{campsite.name}</CardTitle>
+//                     <CardText>{campsite.description}</CardText>
+//                 </CardBody>
+//             </Card>
+//         );
+//     }
+//     return <div />;
+// }
 
-    class Directory extends Component {
+function RenderDirectoryItem({ campsite, onClick }) {
+    return (
+        <Card onClick={() => onClick(campsite.id)}>
+            <CardImg width="100%" src={campsite.image} alt={campsite.name} />
+            <CardImgOverlay>
+                <CardTitle>{campsite.name}</CardTitle>
+            </CardImgOverlay>
+        </Card>
+    );
+}
 
-    render() {
-        const directory = this.props.campsites.map(campsite => {
-            return (
-                //To render and array of elements most efficiently, add a unique key attribue to the topmost element in each array key="element.id"
-                <div key={campsite.id} className="col-md-5 m-1">
-                    <Card onClick={() => this.props.onClick(campsite.id)}>
-                        <CardImg width="100%" src={campsite.image} alt={campsite.name} />
-                        <CardImgOverlay>
-                            <CardTitle>{campsite.name}</CardTitle>
-                        </CardImgOverlay>
-                    </Card>
-                </div>
-            );
-        });
+function Directory(props) {
 
+    const directory = props.campsites.map(campsite => {
         return (
-            <div className="container">
-                <div className="row">
-                    {directory}
-                </div>
+            //To render and array of elements most efficiently, add a unique key attribue to the topmost element in each array key="element.id"
+            <div key={campsite.id} className="col-md-5 m-1">
+                <RenderDirectoryItem campsite={campsite} onClick={props.onClick} />
             </div>
         );
-    }
+    });
+
+    return (
+        <div className="container">
+            <div className="row">
+                {directory}
+            </div>
+        </div>
+    );
 }
+
+// class Directory extends Component {
+
+//     render() {
+//         const directory = this.props.campsites.map(campsite => {
+//             return (
+//                 //To render and array of elements most efficiently, add a unique key attribue to the topmost element in each array key="element.id"
+//                 <div key={campsite.id} className="col-md-5 m-1">
+
+//                 </div>
+//             );
+//         });
+
+//         return (
+//             <div className="container">
+//                 <div className="row">
+//                     {directory}
+//                 </div>
+//             </div>
+//         );
+//     }
+// }
 
 //Example for component usage State/Props
 
