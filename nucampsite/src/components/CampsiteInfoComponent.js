@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import React from 'react';
+import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 
 
@@ -24,7 +24,7 @@ function RenderComments({ comments }) {
                 <h4>Comments</h4>
                 {comments.map((comment) =>
                     <p key={comment.id}>
-                        <div>{comment.text}</div>
+                        <h4>{comment.text}</h4>
                         <small>--{comment.author} - {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit' }).format(new Date(Date.parse(comment.date)))}</small>
                     </p>
                 )}
