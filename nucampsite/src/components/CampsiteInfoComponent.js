@@ -2,10 +2,26 @@ import React from 'react';
 import { Card, CardImg, CardText, CardBody, Breadcrumb, Button, BreadcrumbItem, Modal, ModalBody, ModalHeader, Label, Row, Col, } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
 const required = val => val && val.length;
 const maxLength = len => val => !val || (val.length <= len);
 const minLength = len => val => val && (val.length >= len);
+
+function RenderCampsite({ campsite }) {
+
+    return (
+        <div className="col-md-5 andm-1">
+            <Card >
+                <CardImg top src={campsite.image} alt={campsite.name} />
+                <CardBody>
+                    <CardText>{campsite.description}</CardText>
+                </CardBody>
+            </Card>
+        </div>
+    );
+}
+
 
 class CommentForm extends React.Component {
     constructor(props) {
@@ -18,16 +34,17 @@ class CommentForm extends React.Component {
         };
     }
 
-    handleSubmit(values) {
-        this.toggleModal();
-        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
-    }
-
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
     }
+
+    handleSubmit(values) {
+        this.toggleModal();
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
+    }
+
 
     render() {
         return (
@@ -99,19 +116,6 @@ class CommentForm extends React.Component {
     }
 }
 
-function RenderCampsite({ campsite }) {
-
-    return (
-        <div className="col-md-5 andm-1">
-            <Card >
-                <CardImg top src={campsite.image} alt={campsite.name} />
-                <CardBody>
-                    <CardText>{campsite.description}</CardText>
-                </CardBody>
-            </Card>
-        </div>
-    );
-}
 
 
 function RenderComments({ comments, addComment, campsiteId }) {
@@ -140,6 +144,26 @@ function RenderComments({ comments, addComment, campsiteId }) {
 
 
 function CampsiteInfo(props) {
+    if (props.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+                </div>
+            </div>
+        );
+    }
+    if (props.errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     if (props.campsite) {
         return (
             <div className="container">
